@@ -7,11 +7,36 @@
 //
 
 #include <iostream>
+#include <fstream>
+
 #include "partOrderedSet.hpp"
 
+#define FILENAME "data.txt"
+
 using namespace std;
+
+void readFromFile (const char *filename, set &setName)
+{
+    ifstream f;
+    f.open(filename); //открываем файл
+    if (!f.is_open()) //если не получилось открыть файл
+    {
+        cout << "Файл не открыт" << endl;
+        f.close();
+        return;
+    }
+    int a;
+    int b;
+    while(!f.eof())
+    {
+        f >> a;
+        f >> b;
+        setName.insert(a, b);
+    }
+    f.close();
+    
+}
 int main(int argc, const char * argv[]) {
-    // insert code here...
-    std::cout << "Hello, World!\n";
-    return 0;
+    set mySet;
+    readFromFile(FILENAME, mySet);
 }

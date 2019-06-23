@@ -11,24 +11,7 @@
 
 #include <stdio.h>
 #include <cstring>
-
-using namespace std;
-
-//struct node
-//{
-//    // для списка множества - указатель на следующий эл-т в множестве
-//    // для списка последователей - указатель на элемент из списка множества
-//    node *el;
-//    // для списка множества - указатель на список последователей
-//    // для списка последователей - указатель на следующий элемент списка последователей
-//    node *next;
-//    node ()
-//    {
-//        el = nullptr;
-//        next = nullptr;
-//    }
-//)
-//}
+#include <fstream>
 
 struct node; //список множества (все имеющиеся элементы)
 struct sub_node;
@@ -49,15 +32,15 @@ struct sub_node {
 struct node: sub_node  //описывает список множества
 {
     int data; //значение
-    unsigned int counter; //колличество предшественников
+    unsigned int precursor_counter; //колличество предшественников
     node ()
     {
         data = 0;
-        counter = 0;
+        precursor_counter = 0;
     }
     node (int d): data(d)
     {
-        counter = 0;
+        precursor_counter = 0;
     }
 };
 
@@ -68,8 +51,13 @@ public:
     ~set();
     void print() const;
     bool sort();
+    void insert(int a, int b); //вставить пару
 private:
     node *_head;
+    
+    node* addToEnd(node *tail, int value); //добавить элемент в конец списка
+    node *addFollower(node *follower, sub_node *followers_head); //добавить последователя
+    node *existEl(node *head, int d); //проверить, существует ли элемент d в списке head. Если существует ->позвращает этот элемент, иначе возвр. nullptr
     
 };
 
