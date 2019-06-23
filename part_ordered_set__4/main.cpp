@@ -40,4 +40,7 @@ int main(int argc, const char * argv[]) {
     set mySet;
     readFromFile(FILENAME, mySet);
     mySet.print();
+    cout << endl << endl;
+    mySet.sort();
+    mySet.print();
 }

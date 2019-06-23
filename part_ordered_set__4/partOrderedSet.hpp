@@ -59,7 +59,9 @@ private:
     node* addToEnd(node *tail, int value); //добавить элемент в конец списка
     sub_node* addFollower(node *follower, sub_node *followers_head); //добавить последователя
     node* existEl(node *head, int d); //проверить, существует ли элемент d в списке head. Если существует -> возвращает этот элемент, иначе возвр. nullptr
-    node* searchLast(node *head); 
+    node* searchLast(node *head);
+    sub_node* delFollowersList(sub_node *head);
+    node* delSet(node* head); //удаление списка множества
     
 };
 

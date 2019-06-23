@@ -55,7 +55,53 @@ void set:: insert(int a, int b)
 
 bool set:: sort()
 {
-    return false;
+    node *temp = _head; //исходная голова
+    node *new_head = nullptr; //новая голова
+    
+    node *prev = nullptr;
+    node *set_el = nullptr; //элемент списка множества
+    
+    sub_node *follower; //элемент списка последователей
+    
+    while (temp != nullptr) //пока есть узлы в графе
+    {
+        if (temp->precursor_counter == 0)
+        {
+            //если пустой - добавляем первый, иначе добавляем после
+            new_head == nullptr ? (new_head = temp) : (set_el->next_el = temp);
+            
+            if (temp->followers_node != nullptr) //если есть последователи
+            {
+                follower = temp->followers_node;
+                while (follower != nullptr) //пока не закончились последователи
+                {
+                    follower->next_el->precursor_counter--; //уменьшаем число предшественников
+                    follower = follower->followers_node; //переходим к следующему
+                }
+                temp->followers_node = delFollowersList(temp->followers_node); //удаляем список последователей
+            }
+            //удаляем свяли из списка множества
+            temp == _head ? (_head = _head->next_el) : (prev->next_el = temp->next_el);
+            
+            temp->next_el = nullptr;
+            set_el = temp;
+            temp = _head;
+            prev = nullptr;
+            continue;
+        }
+        prev = temp;
+        temp = temp->next_el;
+    }
+    if (_head != nullptr)
+    {
+        //чистим оба множества
+        _head = delSet(_head);
+        new_head = delSet(new_head);
+        return false; //сортировка не удалась
+    }
+    _head = new_head;
+    return true;
+  
 }
 
 void set:: print() const
@@ -124,4 +170,34 @@ node* set:: searchLast(node *head)
     while (temp->next_el != nullptr)
         temp = temp->next_el;
     return temp;
+}
+
+sub_node* set:: delFollowersList(sub_node *head)
+{
+    sub_node *temp1;
+    sub_node *temp2 = head;
+    while (temp2 != nullptr)
+    {
+        temp1 = temp2;
+        temp2 = temp2->followers_node;
+        delete temp1;
+    }
+    head = nullptr;
+    return head;
+}
+
+node* set:: delSet(node *head)
+{
+    node *temp1;
+    node *temp2 = head;
+    while (temp2 != nullptr)
+    {
+        temp1 = temp2;
+        temp2 = temp2->next_el;
+        if (temp1->followers_node != nullptr) //есть последователи
+            temp1->followers_node = delFollowersList(temp1->followers_node);
+        delete temp1;
+    }
+    head = nullptr;
+    return head;
 }
