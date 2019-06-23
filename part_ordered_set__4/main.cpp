@@ -39,4 +39,5 @@ void readFromFile (const char *filename, set &setName)
 int main(int argc, const char * argv[]) {
     set mySet;
     readFromFile(FILENAME, mySet);
+    mySet.print();
 }

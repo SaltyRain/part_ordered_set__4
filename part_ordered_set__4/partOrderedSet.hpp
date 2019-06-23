@@ -11,21 +11,22 @@
 
 #include <stdio.h>
 #include <cstring>
-#include <fstream>
 
 struct node; //список множества (все имеющиеся элементы)
 struct sub_node;
 
 // базовая структура
 struct sub_node {
-    node *next_el; //указывает на следующий элемент в текущем списке
-    sub_node *linked_node;  //список множеств -> указывает на список последователей
-                            //список последователей -> указывает на элемент списка множества
+    node *next_el; //указывает на следующий элемент списка множества
+    // для списка предшественников указывает на последователя
+    sub_node *followers_node;  //список множеств -> указывает на список последователей
+                            //список предшественников -> указывает на следующий в списке последователей
     sub_node()
     {
         next_el = nullptr;
-        linked_node = nullptr;
+        followers_node = nullptr;
     }
+    sub_node(node *elem, sub_node *sub): next_el(elem), followers_node(sub) {};
 };
 
 // наследуемая структура
@@ -56,8 +57,9 @@ private:
     node *_head;
     
     node* addToEnd(node *tail, int value); //добавить элемент в конец списка
-    node *addFollower(node *follower, sub_node *followers_head); //добавить последователя
-    node *existEl(node *head, int d); //проверить, существует ли элемент d в списке head. Если существует ->позвращает этот элемент, иначе возвр. nullptr
+    sub_node* addFollower(node *follower, sub_node *followers_head); //добавить последователя
+    node* existEl(node *head, int d); //проверить, существует ли элемент d в списке head. Если существует -> возвращает этот элемент, иначе возвр. nullptr
+    node* searchLast(node *head); 
     
 };
 
